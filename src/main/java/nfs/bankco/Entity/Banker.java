@@ -2,7 +2,6 @@ package nfs.bankco.Entity;
 
 import java.util.Objects;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -21,18 +19,22 @@ public class Banker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_banker")
     private int id;
+    @Column(name="B_firstname")
     private String firstname;
+    @Column(name="B_lastname")
     private String lastname;
     private String phone;
     private String role;
 
-    @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "banker_id")
-    private List<Customer> customers;
+    //@OneToMany(orphanRemoval = true)
+    //@JoinColumn(name = "banker_id")
+    //private List<Customer> customers;
 
     public Banker() {
         this.firstname = "";
         this.lastname = "";
+        this.role = "";
+        this.phone = "";
     }
 
     public Banker(int id, String firstname, String lastname) {
@@ -63,7 +65,7 @@ public class Banker {
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        lastname = lastname;
     }
 
     public String getPhone() {
@@ -81,7 +83,7 @@ public class Banker {
     public void setRole(String role) {
         this.role = role;
     }
-
+    /*
     public List<Customer> getCustomers() {
         return customers;
     }
@@ -89,7 +91,7 @@ public class Banker {
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
     }
-
+    */
     @Override
     public String toString() {
         return "Banker [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + "]";

@@ -12,7 +12,9 @@ public class Customer {
     @Column(name = "id_customer")
 
     private int id;
+    @Column(name="C_firstname")
     private String firstname;
+    @Column(name="C_lastname")
     private String lastname;
     private String title;
     private String phone;

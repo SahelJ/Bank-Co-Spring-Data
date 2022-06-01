@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankerRepository extends JpaRepository<Banker, Integer>{
-    Banker findByLastnameAndFirstname(String lastname, String firstname);
+    Banker findByLastnameAndFirstname(String B_lastname, String B_firstname);
 }
