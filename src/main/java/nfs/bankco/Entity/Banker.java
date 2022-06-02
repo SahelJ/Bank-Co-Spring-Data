@@ -19,22 +19,22 @@ public class Banker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_banker")
     private int id;
-    @Column(name="B_firstname")
     private String firstname;
-    @Column(name="B_lastname")
     private String lastname;
     private String phone;
     private String role;
+    private String email;
 
-    //@OneToMany(orphanRemoval = true)
-    //@JoinColumn(name = "banker_id")
-    //private List<Customer> customers;
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "banker_id")
+    private List<Customer> customers;
 
     public Banker() {
         this.firstname = "";
         this.lastname = "";
         this.role = "";
         this.phone = "";
+        this.email = "";
     }
 
     public Banker(int id, String firstname, String lastname) {
@@ -83,7 +83,7 @@ public class Banker {
     public void setRole(String role) {
         this.role = role;
     }
-    /*
+
     public List<Customer> getCustomers() {
         return customers;
     }
@@ -91,7 +91,7 @@ public class Banker {
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
     }
-    */
+
     @Override
     public String toString() {
         return "Banker [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + "]";

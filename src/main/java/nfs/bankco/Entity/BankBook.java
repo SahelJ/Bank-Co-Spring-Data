@@ -13,8 +13,13 @@ public class BankBook {
     @Column(name = "id_bankbook")
     private int id;
     private int rate;
+    @Column(name="from_date")
     private String fromDate;
+    @Column(name="to_date")
     private String toDate;
+    @Column(name="account_type")
+    private String accountType;
+
 
     public int getId() {
         return id;
@@ -24,11 +29,31 @@ public class BankBook {
         return rate;
     }
 
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
     public String getFromDate() {
         return fromDate;
     }
 
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
     public String getToDate() {
         return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 }
