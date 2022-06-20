@@ -1,5 +1,9 @@
 package nfs.bankco.Entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -14,7 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name="bankers")
-public class Banker {
+public class Banker implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_banker")
@@ -24,6 +28,7 @@ public class Banker {
     private String phone;
     private String role;
     private String email;
+    private String password;
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "banker_id")
@@ -65,7 +70,11 @@ public class Banker {
     }
 
     public void setLastname(String lastname) {
-        lastname = lastname;
+        this.lastname = lastname;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone() {
@@ -78,6 +87,14 @@ public class Banker {
 
     public String getRole() {
         return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setRole(String role) {
@@ -113,6 +130,41 @@ public class Banker {
             return false;
         Banker other = (Banker) obj;
         return Objects.equals(firstname, other.firstname) && id == other.id && Objects.equals(lastname, other.lastname);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
 }

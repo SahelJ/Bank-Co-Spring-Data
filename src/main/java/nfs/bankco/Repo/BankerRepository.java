@@ -25,15 +25,54 @@ public class BankerRepository {
         }
         return res;
     }
+    public Banker findUserWithName(String email){
+        Banker res = null;
+        try {
+            Query query = em.createQuery("SELECT b FROM Banker b WHERE b.email = :email");
+            query.setParameter("email", email);
+            res = (Banker) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 
     public List<Banker> getAll(){
         List<Banker> res = null;
         try {
-            Query query = em.createQuery("Select id, firstname, lastname, phone, role, email FROM Banker");
+            Query query = em.createQuery("SELECT firstname, lastname, email, phone,role FROM Banker");
             res = query.getResultList();
         }catch (Exception e){
             e.printStackTrace();
         }
         return res;
+    }
+
+    public void save(Banker banker) {
+        try {
+            em.persist(banker);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Banker update(Banker banker) {
+        try {
+            em.merge(banker);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return banker;
+    }
+
+    public void delete(int id) {
+        try {
+            Query query = em.createQuery(
+                    "DELETE  FROM Banker WHERE id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -42,6 +42,8 @@ public class BankBookRepository {
         return res;
     }
 
+
+
     public List<BankBook> getAllANotExpired(){
         List<BankBook> res = null;
         Calendar cal = Calendar.getInstance();
@@ -66,5 +68,24 @@ public class BankBookRepository {
             e.printStackTrace();
         }
         return bankBook;
+    }
+
+    public void delete(int id) {
+        try {
+            Query query = em.createQuery(
+                    "DELETE  FROM BankBook WHERE id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void save(BankBook bankBook) {
+        try {
+            em.persist(bankBook);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

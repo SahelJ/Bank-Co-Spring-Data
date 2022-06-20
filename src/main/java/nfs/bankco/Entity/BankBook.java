@@ -45,6 +45,10 @@ public class BankBook {
         return toDate;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setToDate(String toDate) {
         this.toDate = toDate;
     }
