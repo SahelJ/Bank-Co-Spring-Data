@@ -1,7 +1,7 @@
 package nfs.bankco.Repo;
 
 import nfs.bankco.Entity.Banker;
-import org.springframework.data.jpa.repository.JpaRepository;
+import nfs.bankco.Entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,10 +25,10 @@ public class BankerRepository {
         }
         return res;
     }
-    public Banker findUserWithName(String email){
+    public Banker findUserWithEmail(String email){
         Banker res = null;
         try {
-            Query query = em.createQuery("SELECT b FROM Banker b WHERE b.email = :email");
+            Query query = em.createQuery("Select b FROM Banker WHERE email = :email");
             query.setParameter("email", email);
             res = (Banker) query.getSingleResult();
         } catch (Exception e) {
@@ -36,7 +36,17 @@ public class BankerRepository {
         }
         return res;
     }
-
+    public Object findUserWithMail(String email){
+        Object res = 0;
+        try {
+            Query query = em.createQuery("Select id, password FROM Banker WHERE email = :email");
+            query.setParameter("email", email);
+            res = (Object) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
     public List<Banker> getAll(){
         List<Banker> res = null;
         try {
@@ -74,5 +84,17 @@ public class BankerRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Customer> getCustomerWallet(int id) {
+        List<Customer> res = null;
+        try {
+            Query query = em.createQuery("SELECT c.id, c.firstname, c.lastname FROM Customer c WHERE c.banker_id = :id ");
+            query.setParameter("id", id);
+            res = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 }

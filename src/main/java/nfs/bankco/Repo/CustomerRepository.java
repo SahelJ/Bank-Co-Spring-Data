@@ -22,6 +22,17 @@ public class CustomerRepository {
         }
         return res;
     }
+    public Object getCustomerDetails(int id){
+        Object res = null;
+        try {
+            Query query = em.createQuery("Select id, firstname, lastname, phone, email, birthdate, address, city, country, customerNumber, isNewCustomer, title, postal FROM Customer WHERE id = :id");
+            query.setParameter("id", id);
+            res = query.getSingleResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return res;
+    }
 
     public List<Customer> getAll(){
         List<Customer> res = null;

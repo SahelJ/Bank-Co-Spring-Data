@@ -12,9 +12,7 @@ public class Customer {
     @Column(name = "id_customer")
 
     private int id;
-    @Column(name="C_firstname")
     private String firstname;
-    @Column(name="C_lastname")
     private String lastname;
     private String title;
     private String phone;
@@ -28,6 +26,7 @@ public class Customer {
     private String password;
     private Boolean isNewCustomer;
 
+    private int banker_id;
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "customer_id")
     private List<Account> accounts;
