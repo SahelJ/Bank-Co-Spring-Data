@@ -29,10 +29,13 @@ public class AuthentificationController {
         Object banker = null;
         try {
             banker = userService.signin("sd.bancko@legilmalas.fr", "password");
+            System.out.println(banker);
         } catch (NoResultException e) {
             System.out.println(e);
             return e;
         }
+
+
         List<Role> roles = new ArrayList<>();
         String token = jwtUtils.createToken("sd.bancko@legilmalas.fr",roles);
         return token;
