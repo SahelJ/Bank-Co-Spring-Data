@@ -31,7 +31,7 @@ public class Banker implements UserDetails {
     private String password;
 
     @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "banker_id")
+    @JoinColumn(name = "banker_id", insertable = false)
     private List<Customer> customers;
 
     public Banker() {
