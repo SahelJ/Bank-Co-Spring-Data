@@ -5,21 +5,20 @@ import nfs.bankco.Entity.Banker;
 import nfs.bankco.Entity.Role;
 import nfs.bankco.Repo.BankBookRepository;
 import nfs.bankco.Repo.BankerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/auth/superbanker") // avec authentification
 public class SuperBankerController {
-    @Autowired
-    private BankerRepository bankerRepository;
-    @Autowired
-    private BankBookRepository bankBookRepository;
+    private final BankerRepository bankerRepository;
+    private final BankBookRepository bankBookRepository;
+
+    public SuperBankerController(BankerRepository bankerRepository, BankBookRepository bankBookRepository) {
+        this.bankerRepository = bankerRepository;
+        this.bankBookRepository = bankBookRepository;
+    }
 
     // Find list of all bankers
     @RequestMapping(value = "/list", produces = "application/json")
@@ -27,10 +26,9 @@ public class SuperBankerController {
         return bankerRepository.getAll();
     }
     // create new banker
-    @RequestMapping(
+    @PostMapping(
             value = "/banker/create",
-            params = {"firstname", "lastname", "role", "email", "phone"},
-            method = RequestMethod.POST
+            params = {"firstname", "lastname", "role", "email", "phone"}
     )
     public void bankerCreate(
             // recuperation of param give by root
@@ -53,10 +51,9 @@ public class SuperBankerController {
     }
 
     //update a banker
-    @RequestMapping(
+    @PatchMapping(
             value = "/banker/update",
-            params = {"firstname", "lastname", "role", "email", "phone","id"},
-            method = RequestMethod.PATCH
+            params = {"firstname", "lastname", "role", "email", "phone","id"}
     )
     public void bankerUpdate(
             // recuperation of param give by root
@@ -82,12 +79,8 @@ public class SuperBankerController {
     }
 
     // delete banker
-    @RequestMapping(
-            value = "/banker/delete",
-            params = {"id"},
-            method = RequestMethod.DELETE
-    )
-    public void deleteBanker(@RequestParam("id") int id){
+    @DeleteMapping(value = "/banker/delete/{id}")
+    public void deleteBanker(@PathVariable(value="id") final int id){
         bankerRepository.delete(id);
     }
 
@@ -104,10 +97,9 @@ public class SuperBankerController {
     }
 
     // create a bankbook
-    @RequestMapping(
+    @PostMapping(
             value = "/bankbook/create",
-            params = {"rate", "fromDate", "toDate", "accountType"},
-            method = RequestMethod.POST
+            params = {"rate", "fromDate", "toDate", "accountType"}
     )
     public void bankbookCreate(
             // recuperation of param give by root
@@ -116,7 +108,7 @@ public class SuperBankerController {
             @RequestParam("toDate") String toDate,
             @RequestParam("accountType") String accountType
     ){
-        // create a new instance of banker
+        // create a new instance of bankbook
         BankBook bankbook = new BankBook();
         // set value of fields in bankbook
         bankbook.setAccountType(accountType);
@@ -129,10 +121,9 @@ public class SuperBankerController {
     }
 
     // update a bankbook
-    @RequestMapping(
+    @PatchMapping(
             value = "/bankbook/update",
-            params = {"rate", "fromDate", "toDate", "accountType","id"},
-            method = RequestMethod.PATCH
+            params = {"rate", "fromDate", "toDate", "accountType","id"}
     )
     public void bankbookUpdate(
             // recuperation of param give by root
@@ -156,12 +147,8 @@ public class SuperBankerController {
     }
 
     // delete bankbook
-    @RequestMapping(
-            value = "/bankbook/delete",
-            params = {"id"},
-            method = RequestMethod.DELETE
-    )
-    public void deleteBankbook(@RequestParam("id") int id){
+    @DeleteMapping(value = "/bankbook/delete/{id}")
+    public void deleteBankbook(@PathVariable(value="id") final int id){
         bankBookRepository.delete(id);
     }
 }

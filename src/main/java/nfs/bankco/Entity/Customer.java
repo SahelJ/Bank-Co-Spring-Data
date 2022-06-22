@@ -67,6 +67,10 @@ public class Customer {
         return phone;
     }
 
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
