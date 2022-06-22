@@ -1,6 +1,7 @@
 package nfs.bankco.Controller;
 
 import nfs.bankco.Entity.Banker;
+import nfs.bankco.Models.SigninForm;
 import nfs.bankco.Services.JWTUserService;
 import nfs.bankco.Services.UserService;
 import nfs.bankco.Utils.form.PasswordUtility;
@@ -21,26 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class AuthentificationController {
-    static public class SigninForm {
-        private String email;
-        private String pass;
 
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPass() {
-            return pass;
-        }
-
-        public void setPass(String pass) {
-            this.pass = pass;
-        }
-    }
     @Autowired
     private JWTUserService userService;
 //
