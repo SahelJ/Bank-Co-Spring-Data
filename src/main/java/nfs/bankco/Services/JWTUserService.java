@@ -4,6 +4,8 @@ package nfs.bankco.Services;
 import nfs.bankco.Entity.Banker;
 import nfs.bankco.Entity.Role;
 import nfs.bankco.Repo.BankerRepository;
+import nfs.bankco.Utils.form.PasswordUtility;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +40,17 @@ public class JWTUserService implements UserDetailsService {
 	  public String signin(String email, String password) {
 	    try {
 	      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-	      return jwtTokenProvider.createToken(email, bankerRepository.findUserWithEmail(email).getRole());
+		  Banker banker = null;
+		  banker = bankerRepository.findUserWithEmail(email);
+		  if (banker != null) {
+			  boolean isPasswordValid = PasswordUtility.validatePassword(password, banker.getPassword());
+			  System.out.println(isPasswordValid);
+			  if (isPasswordValid) {
+				  String token = jwtTokenProvider.createToken(email, banker.getRole());
+				  return token;
+			  }
+		  }
+
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	    }
