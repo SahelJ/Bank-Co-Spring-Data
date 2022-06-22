@@ -2,7 +2,9 @@ package nfs.bankco.Entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -26,7 +28,10 @@ public class Banker implements UserDetails {
     private String firstname;
     private String lastname;
     private String phone;
-    private String role;
+
+    @ElementCollection()
+    private List<Role> role;
+
     private String email;
     private String password;
 
@@ -37,7 +42,7 @@ public class Banker implements UserDetails {
     public Banker() {
         this.firstname = "";
         this.lastname = "";
-        this.role = "";
+        this.role = new ArrayList<>();
         this.phone = "";
         this.email = "";
     }
@@ -73,6 +78,7 @@ public class Banker implements UserDetails {
         this.lastname = lastname;
     }
 
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -85,7 +91,7 @@ public class Banker implements UserDetails {
         this.phone = phone;
     }
 
-    public String getRole() {
+    public List<Role> getRole() {
         return role;
     }
 
@@ -97,7 +103,7 @@ public class Banker implements UserDetails {
         this.email = email;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<Role> role) {
         this.role = role;
     }
 
@@ -134,7 +140,7 @@ public class Banker implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return role;
     }
 
     @Override
@@ -144,7 +150,7 @@ public class Banker implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return this.email;
     }
 
     @Override

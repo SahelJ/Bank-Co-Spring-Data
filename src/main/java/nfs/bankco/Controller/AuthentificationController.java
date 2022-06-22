@@ -1,45 +1,53 @@
 package nfs.bankco.Controller;
 
-import nfs.bankco.Config.JWTUtils;
 import nfs.bankco.Entity.Banker;
-import nfs.bankco.Entity.Role;
-import nfs.bankco.Repo.BankerRepository;
+import nfs.bankco.Services.JWTUserService;
 import nfs.bankco.Services.UserService;
+import nfs.bankco.Utils.form.PasswordUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
 public class AuthentificationController {
-    @Autowired
-    private JWTUtils jwtUtils;
-    @Autowired
-    private UserService userService;
+    static public class SigninForm {
+        private String email;
+        private String pass;
 
-
-    @RequestMapping(value = "/signin")
-//    public Banker signin(@RequestParam("email") String email, @RequestParam("password") String password){
-    public Object signin() {
-        Object banker = null;
-        try {
-            banker = userService.signin("sd.bancko@legilmalas.fr", "password");
-            System.out.println(banker);
-        } catch (NoResultException e) {
-            System.out.println(e);
-            return e;
+        public String getEmail() {
+            return email;
         }
 
+        public void setEmail(String email) {
+            this.email = email;
+        }
 
-        List<Role> roles = new ArrayList<>();
-        String token = jwtUtils.createToken("sd.bancko@legilmalas.fr",roles);
-        return token;
+        public String getPass() {
+            return pass;
+        }
+
+        public void setPass(String pass) {
+            this.pass = pass;
+        }
+    }
+    @Autowired
+    private JWTUserService userService;
+
+    @RequestMapping("/")
+    public ResponseEntity<List<Banker>> getAll(){
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
-//    @RequestMapping(value = "/auth/logout")
+    @PostMapping("/signin")
+    @ResponseBody
+    public String login(@RequestBody SigninForm signinForm) {
+        return userService.signin(signinForm.getEmail(), signinForm.getPass());
+    }
 }

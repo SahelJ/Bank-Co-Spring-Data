@@ -28,7 +28,7 @@ public class BankerRepository {
     public Banker findUserWithEmail(String email){
         Banker res = null;
         try {
-            Query query = em.createQuery("Select b FROM Banker WHERE email = :email");
+            Query query = em.createQuery("Select b FROM Banker b WHERE b.email = :email");
             query.setParameter("email", email);
             res = (Banker) query.getSingleResult();
         } catch (Exception e) {
@@ -36,12 +36,13 @@ public class BankerRepository {
         }
         return res;
     }
-    public Object findUserWithMail(String email){
-        Object res = 0;
+
+    public Banker findUserWithMail(String email){
+        Banker res = null;
         try {
-            Query query = em.createQuery("Select id, password FROM Banker WHERE email = :email");
+            Query query = em.createQuery("Select b FROM Banker b WHERE b.email = :email");
             query.setParameter("email", email);
-            res = (Object) query.getSingleResult();
+            res = (Banker) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +51,7 @@ public class BankerRepository {
     public List<Banker> getAll(){
         List<Banker> res = null;
         try {
-            Query query = em.createQuery("SELECT firstname, lastname, email, phone,role FROM Banker");
+            Query query = em.createQuery("SELECT b.firstname, b.lastname, b.email, b.phone, b.role FROM Banker b");
             res = query.getResultList();
         }catch (Exception e){
             e.printStackTrace();

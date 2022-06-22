@@ -11,7 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-
 public class AppAuthProvider  implements AuthenticationManager {
 
     @Autowired

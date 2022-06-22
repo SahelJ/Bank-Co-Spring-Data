@@ -2,6 +2,7 @@ package nfs.bankco.Controller;
 
 import nfs.bankco.Entity.BankBook;
 import nfs.bankco.Entity.Banker;
+import nfs.bankco.Entity.Role;
 import nfs.bankco.Repo.BankBookRepository;
 import nfs.bankco.Repo.BankerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class SuperBankerController {
             // recuperation of param give by root
             @RequestParam("firstname") String firstname,
             @RequestParam("lastname") String lastname,
-            @RequestParam("role") String role,
+            @RequestParam("role") List<Role> role,
             @RequestParam("email") String email,
             @RequestParam("phone") String phone
     ){
@@ -61,7 +62,7 @@ public class SuperBankerController {
             // recuperation of param give by root
             @RequestParam("firstname") String firstname,
             @RequestParam("lastname") String lastname,
-            @RequestParam("role") String role,
+            @RequestParam("role") List<Role> role,
             @RequestParam("email") String email,
             @RequestParam("phone") String phone,
             @RequestParam("id") int id
