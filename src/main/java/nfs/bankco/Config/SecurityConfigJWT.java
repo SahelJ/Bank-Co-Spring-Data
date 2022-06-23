@@ -30,9 +30,9 @@ public class SecurityConfigJWT extends WebSecurityConfigurerAdapter {
 		http.csrf()
 		.disable()
 		.authorizeRequests()
-		.antMatchers("/users/signin").permitAll()	// public, obligatoire à définir en premier
-        .antMatchers("/users/signup").permitAll()	// public, obligatoire à définir en premier
-//		.antMatchers("/auth/**").authenticated() 	// si dans l'url j'ai /auth/ je dois être authentifié pour y accéder
+				.antMatchers("/signin").permitAll()	// public, obligatoire à définir en premier
+		.antMatchers("/superbanker/banker/create?").permitAll()	// public, obligatoire à définir en premier
+		.antMatchers("/auth/**").authenticated() 	// si dans l'url j'ai /auth/ je dois être authentifié pour y accéder
 		.anyRequest().permitAll();								// si dans l'url je n'ai aps auth, c'est public
 		
 		http.apply(new JWTTokenFilterConfiguration(jwtTokenProvider));
