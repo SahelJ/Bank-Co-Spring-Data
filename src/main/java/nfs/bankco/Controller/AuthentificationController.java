@@ -30,11 +30,7 @@ public class AuthentificationController {
     public String login(@RequestBody SigninForm signinForm, HttpServletResponse response) {
         JSONObject responseObj = new JSONObject();
         responseObj.put("success", false);
-        System.out.println(signinForm.getEmail());
-        System.out.println(signinForm.getPass());
         String token = userService.signin(signinForm.getEmail(), signinForm.getPass());
-
-
         System.out.println(token);
         if (token != "") {
             UserDetails banker =  userService.loadUserByUsername(signinForm.getEmail());
