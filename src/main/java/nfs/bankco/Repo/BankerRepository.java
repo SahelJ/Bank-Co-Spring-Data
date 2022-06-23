@@ -5,6 +5,7 @@ import nfs.bankco.Entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
@@ -31,8 +32,9 @@ public class BankerRepository {
             Query query = em.createQuery("Select b FROM Banker b WHERE b.email = :email");
             query.setParameter("email", email);
             res = (Banker) query.getSingleResult();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (EntityNotFoundException e) {
+//            e.printStackTrace();
+
         }
         return res;
     }

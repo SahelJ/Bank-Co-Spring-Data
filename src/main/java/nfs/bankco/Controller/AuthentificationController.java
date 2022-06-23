@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/")
 public class AuthentificationController {
 
@@ -29,16 +30,22 @@ public class AuthentificationController {
     public String login(@RequestBody SigninForm signinForm, HttpServletResponse response) {
         JSONObject responseObj = new JSONObject();
         responseObj.put("success", false);
+        System.out.println(signinForm.getEmail());
+        System.out.println(signinForm.getPass());
         String token = userService.signin(signinForm.getEmail(), signinForm.getPass());
-        UserDetails banker =  userService.loadUserByUsername(signinForm.getEmail());
+
+
         System.out.println(token);
         if (token != "") {
+            UserDetails banker =  userService.loadUserByUsername(signinForm.getEmail());
             responseObj.put("success", true);
             responseObj.put("role",banker.getAuthorities());
             Cookie cookie = new Cookie("token", token);
             response.setHeader("Authorization","Bearer" + token);
             response.addHeader("Authorization","Bearer" + token);
             response.addCookie(cookie);
+        } else {
+            responseObj.put("error", "NoAcc");
         }
         return responseObj.toString();
     }

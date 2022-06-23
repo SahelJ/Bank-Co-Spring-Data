@@ -95,6 +95,10 @@ public class Banker implements UserDetails {
         return role;
     }
 
+    public void setRole(List<Role> role) {
+        this.role = role;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -103,9 +107,6 @@ public class Banker implements UserDetails {
         this.email = email;
     }
 
-    public void setRole(List<Role> role) {
-        this.role = role;
-    }
 
     public List<Customer> getCustomers() {
         return customers;

@@ -70,12 +70,13 @@ public class JWTUserService implements UserDetailsService {
 	public List<Banker> getAll(){
 		return bankerRepository.getAll();
 	}
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Banker banker = bankerRepository.findUserWithEmail(email);
 //				.orElseThrow(() -> new UsernameNotFoundException("bad credentials"));
 		return new org.springframework.security.core.userdetails.User(
-				banker.getUsername(), banker.getPassword(), banker.getRole());
+				banker.getEmail(), banker.getPassword(), banker.getRole());
 	}
 
 }
