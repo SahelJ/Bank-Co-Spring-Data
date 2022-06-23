@@ -7,10 +7,11 @@ import nfs.bankco.Repo.BankBookRepository;
 import nfs.bankco.Repo.BankerRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/superbanker") // avec authentification
+@RequestMapping("/superbanker") // avec authentification
 public class SuperBankerController {
     private final BankerRepository bankerRepository;
     private final BankBookRepository bankBookRepository;
@@ -28,13 +29,13 @@ public class SuperBankerController {
     // create new banker
     @PostMapping(
             value = "/banker/create",
-            params = {"firstname", "lastname", "role", "email", "phone"}
+            params = {"firstname", "lastname", "email", "phone"}
     )
     public void bankerCreate(
             // recuperation of param give by root
             @RequestParam("firstname") String firstname,
             @RequestParam("lastname") String lastname,
-            @RequestParam("role") List<Role> role,
+//            @RequestParam("role") List<Role> role,
             @RequestParam("email") String email,
             @RequestParam("phone") String phone
     ){
@@ -42,7 +43,9 @@ public class SuperBankerController {
         Banker banker = new Banker();
         // set value of fields in banker
         banker.setEmail(email);
-        banker.setRole(role);
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ROLE_ADMIN);
+        banker.setRole(roles);
         banker.setLastname(lastname);
         banker.setFirstname(firstname);
         banker.setPhone(phone);

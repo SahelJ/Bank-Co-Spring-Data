@@ -1,46 +1,21 @@
 package nfs.bankco.Controller;
 
 import nfs.bankco.Entity.Banker;
+import nfs.bankco.Models.SigninForm;
 import nfs.bankco.Services.JWTUserService;
-import nfs.bankco.Services.UserService;
-import nfs.bankco.Utils.form.PasswordUtility;
-import org.aspectj.weaver.patterns.IToken;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.NoResultException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/")
 public class AuthentificationController {
-    static public class SigninForm {
-        private String email;
-        private String pass;
 
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPass() {
-            return pass;
-        }
-
-        public void setPass(String pass) {
-            this.pass = pass;
-        }
-    }
     @Autowired
     private JWTUserService userService;
 //
@@ -55,12 +30,17 @@ public class AuthentificationController {
         JSONObject responseObj = new JSONObject();
         responseObj.put("success", false);
         String token = userService.signin(signinForm.getEmail(), signinForm.getPass());
+        UserDetails banker =  userService.loadUserByUsername(signinForm.getEmail());
         System.out.println(token);
         if (token != "") {
             responseObj.put("success", true);
+            responseObj.put("role",banker.getAuthorities());
             Cookie cookie = new Cookie("token", token);
+            response.setHeader("Authorization","Bearer" + token);
+            response.addHeader("Authorization","Bearer" + token);
             response.addCookie(cookie);
         }
         return responseObj.toString();
     }
+
 }

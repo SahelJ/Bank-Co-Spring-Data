@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/banker")
+@RequestMapping("/auth/banker")
 public class BankerController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class BankerController {
 
     @RequestMapping(value = "/customers", produces = "application/json")
     public List<Customer> getCustomersWallet(){
-        return bankerRepository.getCustomerWallet(2);
+        return bankerRepository.getCustomerWallet(1);
     }
 
     @RequestMapping(value = "/update", produces = "application/json")
