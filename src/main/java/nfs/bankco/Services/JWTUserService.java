@@ -47,6 +47,7 @@ public class JWTUserService implements UserDetailsService {
 			  System.out.println(isPasswordValid);
 			  if (isPasswordValid) {
 				  String token = jwtTokenProvider.createToken(email, banker.getRole());
+
 				  return token;
 			  }
 		  }
@@ -60,7 +61,7 @@ public class JWTUserService implements UserDetailsService {
 	  public String signup(Banker banker) {
 		  banker.setPassword(passwordEncoder.encode(banker.getPassword()));
 		  List<Role> roles = new ArrayList<>();
-		  roles.add(Role.ROLE_BANKER);
+		  roles.add(Role.ROLE_USER);
 		  banker.setRole(roles);
 	      bankerRepository.save(banker);
 	      return jwtTokenProvider.createToken(banker.getUsername(), banker.getRole());
