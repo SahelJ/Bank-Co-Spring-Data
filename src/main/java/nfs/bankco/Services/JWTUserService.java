@@ -46,7 +46,7 @@ public class JWTUserService implements UserDetailsService {
 			  boolean isPasswordValid = PasswordUtility.validatePassword(password, banker.getPassword());
 			  System.out.println(isPasswordValid);
 			  if (isPasswordValid) {
-				  String token = jwtTokenProvider.createToken(email, banker.getRole());
+				  String token = jwtTokenProvider.createToken(email, banker.getRole(), banker.getId());
 
 				  return token;
 			  }
@@ -64,7 +64,7 @@ public class JWTUserService implements UserDetailsService {
 		  roles.add(Role.ROLE_USER);
 		  banker.setRole(roles);
 	      bankerRepository.save(banker);
-	      return jwtTokenProvider.createToken(banker.getUsername(), banker.getRole());
+	      return jwtTokenProvider.createToken(banker.getUsername(), banker.getRole(), banker.getId());
 	  }
 
 	public List<Banker> getAll(){
@@ -73,7 +73,8 @@ public class JWTUserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Banker banker = bankerRepository.findUserWithEmail(email);
+		  System.out.println(email);
+		  Banker banker = bankerRepository.findUserWithEmail(email);
 //				.orElseThrow(() -> new UsernameNotFoundException("bad credentials"));
 		return new org.springframework.security.core.userdetails.User(
 				banker.getEmail(), banker.getPassword(), banker.getRole());

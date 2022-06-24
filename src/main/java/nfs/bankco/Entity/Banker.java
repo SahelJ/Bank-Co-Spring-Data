@@ -29,7 +29,7 @@ public class Banker implements UserDetails {
     private String lastname;
     private String phone;
 
-    @ElementCollection()
+    @ElementCollection(fetch =  FetchType.EAGER)
     private List<Role> role;
 
     private String email;

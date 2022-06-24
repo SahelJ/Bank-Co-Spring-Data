@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTTokenFilter extends OncePerRequestFilter {
@@ -21,8 +22,9 @@ public class JWTTokenFilter extends OncePerRequestFilter {
 	public JWTTokenFilter(JWTTokenProvider p) {
 		this.provider = p;
 	}
-	
+
 	@Override
+
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filter) throws ServletException, IOException{
 		String token = provider.resolveToken(req);
 		String cookieToken = null;
@@ -42,14 +44,16 @@ public class JWTTokenFilter extends OncePerRequestFilter {
 					System.out.println("Auth : " + auth.getCredentials());
 					SecurityContextHolder.getContext().setAuthentication(auth);
 				} else if (cookieToken != null && provider.validatToken(cookieToken) ) {
-					System.out.println("Cookie Token : " + cookieToken);
-					Authentication auth = provider.getAuthentication(cookieToken);
+					System.out.println("Cookie Token : " + cookieToken.trim());
+					Authentication auth = provider.getAuthentication(cookieToken.trim());
 					System.out.println("Auth : " + auth.getCredentials());
 					SecurityContextHolder.getContext().setAuthentication(auth);
 				}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
+				System.out.println("bad Token");
 				SecurityContextHolder.clearContext();
-				res.sendError(403, "bad token");
+//				res.sendError(403, "bad token");
 			}
 		filter.doFilter(req, res);
 	}
