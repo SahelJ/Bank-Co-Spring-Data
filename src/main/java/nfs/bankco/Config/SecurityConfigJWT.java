@@ -12,8 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@CrossOrigin(origins = "*")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigJWT extends WebSecurityConfigurerAdapter {
@@ -25,13 +29,13 @@ public class SecurityConfigJWT extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		final CorsConfiguration config = new CorsConfiguration();
 
-	
 		http.csrf()
 		.disable()
 		.authorizeRequests()
 				.antMatchers("/signin").permitAll()	// public, obligatoire à définir en premier
-		.antMatchers("/superbanker/banker/create?").permitAll()	// public, obligatoire à définir en premier
 		.antMatchers("/auth/**").authenticated() 	// si dans l'url j'ai /auth/ je dois être authentifié pour y accéder
 		.anyRequest().permitAll();								// si dans l'url je n'ai aps auth, c'est public
 		
